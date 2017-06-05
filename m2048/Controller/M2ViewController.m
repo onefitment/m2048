@@ -68,7 +68,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    ALAdView *adView = [[ALAdView alloc] initWithFrame: CGRectMake(0,Main_Screen_Height - 64 - 50 , Main_Screen_Width, 50.0f) size: [ALAdSize sizeBanner] sdk: [ALSdk shared]];
+    ALAdView *adView = [[ALAdView alloc] initWithFrame: CGRectMake(0,Main_Screen_Height - 50 , Main_Screen_Width, 50.0f) size: [ALAdSize sizeBanner] sdk: [ALSdk shared]];
     // Load an ad into the ad view
     [adView loadNextAd];
 //    adView.backgroundColor = [UIColor orangeColor];
