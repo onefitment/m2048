@@ -48,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22B7ABDD1EE5A2DA0012B13D /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		22FAC4001EDDAEBE00971CF1 /* AppLovinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppLovinSDK.framework; sourceTree = "<group>"; };
 		2443DC5218D662CA00C920C1 /* m2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = m2048.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2443DC5518D662CA00C920C1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -133,6 +134,7 @@
 		22ADEE0E1EDD0E8300001A4B /* Expand */ = {
 			isa = PBXGroup;
 			children = (
+				22B7ABDC1EE5A2DA0012B13D /* Macros */,
 				22ADEE0F1EDD0ECA00001A4B /* SDKFiles */,
 			);
 			path = Expand;
@@ -152,6 +154,14 @@
 				22FAC4001EDDAEBE00971CF1 /* AppLovinSDK.framework */,
 			);
 			path = AppLovin;
+			sourceTree = "<group>";
+		};
+		22B7ABDC1EE5A2DA0012B13D /* Macros */ = {
+			isa = PBXGroup;
+			children = (
+				22B7ABDD1EE5A2DA0012B13D /* Macros.h */,
+			);
+			path = Macros;
 			sourceTree = "<group>";
 		};
 		2443DC4918D662CA00C920C1 = {
