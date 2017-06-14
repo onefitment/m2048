@@ -11,6 +11,12 @@
 #import "M2Tile.h"
 #import "M2Scene.h"
 #import "M2ViewController.h"
+#import <AVFoundation/AVFoundation.h>
+
+typedef NS_ENUM(NSInteger, WavType) {
+    WavTypeTwo,
+    WavTypeFour
+};
 
 /**
  * Helper function that checks the termination condition of either counting up or down.
@@ -24,6 +30,10 @@
 BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
   return countUp ? value < upper : value > lower;
 }
+@interface M2GameManager ()
+@property (strong, nonatomic) AVAudioPlayer *player;
+
+@end
 
 
 @implementation M2GameManager {
@@ -222,6 +232,33 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
 
 
 # pragma mark - State checkers
+
+#pragma mark -- 播放音乐
+- (void)playWavWithType:(NSInteger )type {
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [session setActive:YES error:nil];
+    NSString *audioPath;
+    if (type == WavTypeTwo) {
+        audioPath = [[NSBundle mainBundle] pathForResource:@"av1" ofType:@"wav"];
+    } else {
+        audioPath = [[NSBundle mainBundle] pathForResource:@"av2" ofType:@"wav"];
+    }
+    
+    NSURL *audioUrl = [NSURL fileURLWithPath:audioPath];
+    NSError *playerError;
+    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:audioUrl error:&playerError];
+    if (_player == NULL)
+    {
+        NSLog(@"fail to play audio :(");
+        return;
+    }
+    
+    [_player setNumberOfLoops:-1];
+    [_player setVolume:1];
+    [_player prepareToPlay];
+    [_player play];
+}
 
 /**
  * Whether there are moves available.
