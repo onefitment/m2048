@@ -110,7 +110,7 @@
 }
 
 
-#pragma mark - Cell manipulation
+#pragma mark - Cell manipulation 添加一个模块
 
 - (void)insertTileAtRandomAvailablePositionWithDelay:(BOOL)delay {
   M2Cell *cell = [self randomAvailableCell];

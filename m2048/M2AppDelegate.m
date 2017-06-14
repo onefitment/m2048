@@ -8,11 +8,13 @@
 
 #import "M2AppDelegate.h"
 #import <AppLovinSDK/AppLovinSDK.h>
+#import <BmobSDK/Bmob.h>
+#define bmobID @"e3f44447bee428928846ab5eb74eeb17"
 
 @implementation M2AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Bmob registerWithAppKey:bmobID];
   return YES;
 }
 

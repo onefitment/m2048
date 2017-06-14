@@ -214,6 +214,7 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
 
 - (void)materializePendingScore
 {
+    //在这里可以通过分数来响起 4的音乐
   _score += _pendingScore;
   _pendingScore = 0;
   [_grid.scene.controller updateScore:_score];
