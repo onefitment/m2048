@@ -31,7 +31,8 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
   return countUp ? value < upper : value > lower;
 }
 @interface M2GameManager ()
-@property (strong, nonatomic) AVAudioPlayer *player;
+@property (strong, nonatomic) AVAudioPlayer *playerTwo;
+@property (strong, nonatomic) AVAudioPlayer *playerFour;
 
 @end
 
@@ -97,6 +98,7 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
 
 - (void)moveToDirection:(M2Direction)direction
 {
+  [self playWavTwo];
   __block M2Tile *tile = nil;
   
   // Remember that the coordinate system of SpriteKit is the reverse of that of UIKit.
@@ -225,6 +227,9 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
 - (void)materializePendingScore
 {
     //在这里可以通过分数来响起 4的音乐
+    if (_pendingScore > 1) {
+       [self playWithFour];
+    }
   _score += _pendingScore;
   _pendingScore = 0;
   [_grid.scene.controller updateScore:_score];
@@ -233,31 +238,42 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
 
 # pragma mark - State checkers
 
-#pragma mark -- 播放音乐
-- (void)playWavWithType:(NSInteger )type {
-    AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [session setActive:YES error:nil];
-    NSString *audioPath;
-    if (type == WavTypeTwo) {
-        audioPath = [[NSBundle mainBundle] pathForResource:@"av1" ofType:@"wav"];
-    } else {
-        audioPath = [[NSBundle mainBundle] pathForResource:@"av2" ofType:@"wav"];
-    }
-    
-    NSURL *audioUrl = [NSURL fileURLWithPath:audioPath];
-    NSError *playerError;
-    _player = [[AVAudioPlayer alloc] initWithContentsOfURL:audioUrl error:&playerError];
-    if (_player == NULL)
-    {
-        NSLog(@"fail to play audio :(");
-        return;
-    }
-    
-    [_player setNumberOfLoops:-1];
-    [_player setVolume:1];
-    [_player prepareToPlay];
-    [_player play];
+#pragma mark -- 播放音乐 four
+- (void)playWithFour {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (!self.playerFour) {
+            NSString *audioPath = [[NSBundle mainBundle] pathForResource:@"merge" ofType:@"wav"];
+            NSURL *audioUrl = [NSURL fileURLWithPath:audioPath];
+            NSError *playerError;
+            self.playerFour = [[AVAudioPlayer alloc] initWithContentsOfURL:audioUrl error:&playerError];
+            if (!self.playerFour) {
+                return ;
+            }
+        }
+        [self.playerFour setNumberOfLoops:0];
+        [self.playerFour setVolume:1];
+        [self.playerFour prepareToPlay];
+        [self.playerFour play];
+    });
+}
+
+#pragma mark -- 播放音乐 播放TWO
+- (void)playWavTwo {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (!self.playerTwo) {
+            NSString *audioPath = [[NSBundle mainBundle] pathForResource:@"move" ofType:@"wav"];
+            NSURL *audioUrl = [NSURL fileURLWithPath:audioPath];
+            NSError *playerError;
+            self.playerTwo = [[AVAudioPlayer alloc] initWithContentsOfURL:audioUrl error:&playerError];
+            if (!self.playerTwo) {
+                return ;
+            }
+        }
+        [self.playerTwo setNumberOfLoops:0];
+        [self.playerTwo setVolume:1];
+        [self.playerTwo prepareToPlay];
+        [self.playerTwo play];
+    });
 }
 
 /**
