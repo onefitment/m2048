@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		220ED0C81EF17635000940E3 /* merge.wav in Resources */ = {isa = PBXBuildFile; fileRef = 220ED0C61EF17635000940E3 /* merge.wav */; };
 		220ED0C91EF17635000940E3 /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 220ED0C71EF17635000940E3 /* move.wav */; };
+		223813441EF2C9AA00203747 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223813431EF2C9AA00203747 /* GameKit.framework */; };
+		223813491EF2CA7600203747 /* M2GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 223813481EF2CA7600203747 /* M2GameCenterManager.m */; };
 		226F635C1EE5AE3700B49A2C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 226F635B1EE5AE3700B49A2C /* AdSupport.framework */; };
 		226F635E1EE5AE4000B49A2C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 226F635D1EE5AE4000B49A2C /* AVFoundation.framework */; };
 		226F63601EE5AE5200B49A2C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 226F635F1EE5AE5200B49A2C /* CoreMedia.framework */; };
@@ -60,6 +62,9 @@
 /* Begin PBXFileReference section */
 		220ED0C61EF17635000940E3 /* merge.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = merge.wav; sourceTree = "<group>"; };
 		220ED0C71EF17635000940E3 /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
+		223813431EF2C9AA00203747 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		223813471EF2CA7600203747 /* M2GameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M2GameCenterManager.h; sourceTree = "<group>"; };
+		223813481EF2CA7600203747 /* M2GameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M2GameCenterManager.m; sourceTree = "<group>"; };
 		226F635B1EE5AE3700B49A2C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		226F635D1EE5AE4000B49A2C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		226F635F1EE5AE5200B49A2C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -133,6 +138,7 @@
 				2443DC5818D662CA00C920C1 /* CoreGraphics.framework in Frameworks */,
 				226F635E1EE5AE4000B49A2C /* AVFoundation.framework in Frameworks */,
 				226F635C1EE5AE3700B49A2C /* AdSupport.framework in Frameworks */,
+				223813441EF2C9AA00203747 /* GameKit.framework in Frameworks */,
 				2443DC5C18D662CA00C920C1 /* SpriteKit.framework in Frameworks */,
 				22FAC4011EDDAEBE00971CF1 /* AppLovinSDK.framework in Frameworks */,
 				2443DC5618D662CA00C920C1 /* Foundation.framework in Frameworks */,
@@ -170,9 +176,27 @@
 			path = music;
 			sourceTree = "<group>";
 		};
+		223813451EF2CA7600203747 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				223813461EF2CA7600203747 /* GameCenter */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		223813461EF2CA7600203747 /* GameCenter */ = {
+			isa = PBXGroup;
+			children = (
+				223813471EF2CA7600203747 /* M2GameCenterManager.h */,
+				223813481EF2CA7600203747 /* M2GameCenterManager.m */,
+			);
+			path = GameCenter;
+			sourceTree = "<group>";
+		};
 		22ADEE0D1EDD0E4C00001A4B /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				223813451EF2CA7600203747 /* Main */,
 				22ADEE0E1EDD0E8300001A4B /* Expand */,
 			);
 			path = Class;
@@ -234,6 +258,7 @@
 		2443DC5418D662CA00C920C1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				223813431EF2C9AA00203747 /* GameKit.framework */,
 				226F63671EE5AE7900B49A2C /* WebKit.framework */,
 				226F63651EE5AE6A00B49A2C /* SystemConfiguration.framework */,
 				226F63631EE5AE6300B49A2C /* StoreKit.framework */,
@@ -431,8 +456,12 @@
 				TargetAttributes = {
 					2443DC5118D662CA00C920C1 = {
 						DevelopmentTeam = YL6NLU4FDN;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.GameCenter = {
 								enabled = 1;
 							};
 						};
@@ -542,6 +571,7 @@
 				24C4515B18D6DC4A0001FCFD /* M2Cell.m in Sources */,
 				24C4516818DD64A90001FCFD /* M2GridView.m in Sources */,
 				2443DC9A18D663FC00C920C1 /* M2Scene.m in Sources */,
+				223813491EF2CA7600203747 /* M2GameCenterManager.m in Sources */,
 				24C4515E18D6DC740001FCFD /* M2Grid.m in Sources */,
 				24C4518118E265390001FCFD /* M2Overlay.m in Sources */,
 				2443DCAF18D6C18400C920C1 /* M2Tile.m in Sources */,
@@ -698,8 +728,10 @@
 				GCC_PREFIX_HEADER = "m2048/m2048-Prefix.pch";
 				INFOPLIST_FILE = "m2048/m2048-Info.plist";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mayidai.2048;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mayidai.yizhi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2f1c8464-14f4-437f-9768-4535fa59573a";
+				PROVISIONING_PROFILE_SPECIFIER = 2048Dev;
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -721,8 +753,10 @@
 				GCC_PREFIX_HEADER = "m2048/m2048-Prefix.pch";
 				INFOPLIST_FILE = "m2048/m2048-Info.plist";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mayidai.2048;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mayidai.yizhi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2f1c8464-14f4-437f-9768-4535fa59573a";
+				PROVISIONING_PROFILE_SPECIFIER = 2048Dev;
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};

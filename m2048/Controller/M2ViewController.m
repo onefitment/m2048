@@ -17,6 +17,11 @@
 #import "M2Overlay.h"
 #import "M2GridView.h"
 #import "Macros.h"
+#import "M2GameCenterManager.h"
+
+@interface M2ViewController ()
+@property (nonatomic, strong) M2GameCenterManager *gameCenterManager;
+@end
 
 @implementation M2ViewController {
     IBOutlet UIButton *_restartButton;
@@ -63,6 +68,7 @@
     
     _scene = scene;
     _scene.controller = self;
+    
 }
 
 
@@ -75,6 +81,8 @@
     
     // Add it to the view
     [self.view addSubview: adView];
+    //验证用户是否登录了
+    [self.gameCenterManager authenticateLocalUser:self];
     
 }
 
@@ -124,6 +132,7 @@
     if ([Settings integerForKey:@"Best Score"] < score) {
         [Settings setInteger:score forKey:@"Best Score"];
         _bestView.score.text = [NSString stringWithFormat:@"%ld", (long)score];
+        [self.gameCenterManager reportScore:score andType:M2GameTypePowerOf2];
     }
 }
 
@@ -213,6 +222,13 @@
 {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
+}
+
+- (M2GameCenterManager *)gameCenterManager {
+    if (!_gameCenterManager) {
+        _gameCenterManager = [[M2GameCenterManager alloc] init];
+    }
+    return _gameCenterManager;
 }
 
 @end
