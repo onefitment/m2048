@@ -12,6 +12,6 @@
 //身份验证
 - (void)authenticateLocalUser:(UIViewController *)mainVC;
 //上传分数
-- (void)reportScore: (int64_t) score;
+- (void)reportScore: (int64_t) score andType:(M2GameType)gameType;
 
 @end

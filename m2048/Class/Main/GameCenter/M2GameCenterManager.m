@@ -9,7 +9,9 @@
 #import "M2GameCenterManager.h"
 #import <GameKit/GameKit.h>
 
-#define kIdentifierScore  @"GlobalScore"
+#define kIdentifierScore  @"2_2"
+#define kIdentifierScore  @"2_2"
+#define kIdentifierScore  @"2_2"
 
 @interface M2GameCenterManager ()<GKGameCenterControllerDelegate>
 @property (nonatomic, strong) GKLocalPlayer *localPlayer;
@@ -75,9 +77,17 @@
 }
 
 //上传分数
-- (void)reportScore: (int64_t) score{
+- (void)reportScore: (int64_t) score andType:(M2GameType)gameType{
     GKScore *scoreReporter = [[GKScore alloc] initWithLeaderboardIdentifier:kIdentifierScore ];
     scoreReporter.value = score;
+    if (gameType == M2GameTypePowerOf2) {
+        
+    } else if (gameType == M2GameTypePowerOf3) {
+        
+    } else {
+        
+    }
+    
     [GKScore reportScores:@[scoreReporter] withCompletionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
             NSData *saveSocreData = [NSKeyedArchiver archivedDataWithRootObject:scoreReporter];
