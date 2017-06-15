@@ -14,8 +14,8 @@
 @implementation M2AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [Bmob registerWithAppKey:bmobID];
-  return YES;
+//    [Bmob registerWithAppKey:bmobID];
+    return YES;
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
