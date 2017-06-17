@@ -14,4 +14,6 @@
 //上传分数
 - (void)reportScore: (int64_t) score andType:(M2GameType)gameType;
 
+- (void)showGameCenterWithVC:(UIViewController *)vc;
+
 @end

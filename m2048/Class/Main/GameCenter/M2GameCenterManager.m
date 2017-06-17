@@ -12,6 +12,7 @@
 #define kIdentifierScore2  @"2_2"
 #define kIdentifierScore3  @"3_3_3"
 #define kIdentifierScore5  @"2_3_5"
+#define kIdentifierAllScore @"maxScore"
 
 @interface M2GameCenterManager ()<GKGameCenterControllerDelegate>
 @property (nonatomic, strong) GKLocalPlayer *localPlayer;
@@ -36,27 +37,15 @@
     self.localPlayer = [GKLocalPlayer localPlayer];
     
     self.localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
-        if (viewController != nil) {
-            [mainVC presentViewController:viewController animated:YES completion:nil];
-        }
-        else{
-            if ([GKLocalPlayer localPlayer].authenticated) {
-                // Get the default leaderboard identifier.
+        if ([[GKLocalPlayer localPlayer] isAuthenticated]) {
+            NSLog(@"已授权");
+        } else {
+            if (viewController ) {
+                [mainVC presentViewController:viewController animated:YES completion:nil];
+            } else {
                 
-                [[GKLocalPlayer localPlayer] loadDefaultLeaderboardIdentifierWithCompletionHandler:^(NSString *leaderboardIdentifier, NSError *error) {
-                    
-                    if (error != nil) {
-                        NSLog(@"%@", [error localizedDescription]);
-                    }
-                    else{
-                        
-                    }
-                }];
             }
             
-            else{
-                
-            }
         }
     };
 }
@@ -102,6 +91,30 @@
     
     [savedScoresArray addObject:scoreData];
     [[NSUserDefaults standardUserDefaults] setObject:savedScoresArray forKey:@"savedScores"];
+}
+
+- (void)showGameCenterWithVC:(UIViewController *)vc {
+    self.localPlayer = [GKLocalPlayer localPlayer];
+    __weak typeof(self) weakSelf = self;
+    self.localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
+        if ([[GKLocalPlayer localPlayer] isAuthenticated]) {
+            GKGameCenterViewController *gameViewController = [[GKGameCenterViewController alloc] init];
+            gameViewController.view.backgroundColor = [[GSTATE backgroundColor] colorWithAlphaComponent:0.8];
+            if (gameViewController) {
+                gameViewController.gameCenterDelegate = weakSelf;
+                [gameViewController setLeaderboardTimeScope:GKLeaderboardTimeScopeAllTime];
+                [gameViewController setLeaderboardIdentifier:kIdentifierAllScore];
+                [vc presentViewController:gameViewController animated:YES completion:nil];
+            }
+        } else {
+            if (viewController ) {
+                [vc presentViewController:viewController animated:YES completion:nil];
+            } else {
+                //登录没有被允许，请去设置中心设置gameCenter
+            }
+        }
+    };
+
 }
 
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController {

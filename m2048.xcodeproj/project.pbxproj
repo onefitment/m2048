@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092C18271EF36E39004D819B /* M2HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 092C18261EF36E39004D819B /* M2HomeViewController.m */; };
 		220ED0C81EF17635000940E3 /* merge.wav in Resources */ = {isa = PBXBuildFile; fileRef = 220ED0C61EF17635000940E3 /* merge.wav */; };
 		220ED0C91EF17635000940E3 /* move.wav in Resources */ = {isa = PBXBuildFile; fileRef = 220ED0C71EF17635000940E3 /* move.wav */; };
 		223813441EF2C9AA00203747 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223813431EF2C9AA00203747 /* GameKit.framework */; };
@@ -60,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		092C18251EF36E39004D819B /* M2HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M2HomeViewController.h; sourceTree = "<group>"; };
+		092C18261EF36E39004D819B /* M2HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M2HomeViewController.m; sourceTree = "<group>"; };
 		220ED0C61EF17635000940E3 /* merge.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = merge.wav; sourceTree = "<group>"; };
 		220ED0C71EF17635000940E3 /* move.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = move.wav; sourceTree = "<group>"; };
 		223813431EF2C9AA00203747 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -159,6 +162,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		092C18241EF36E18004D819B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				092C18251EF36E39004D819B /* M2HomeViewController.h */,
+				092C18261EF36E39004D819B /* M2HomeViewController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
 		220ED0C41EF175F2000940E3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +191,7 @@
 		223813451EF2CA7600203747 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				092C18241EF36E18004D819B /* Home */,
 				223813461EF2CA7600203747 /* GameCenter */,
 			);
 			path = Main;
@@ -580,6 +593,7 @@
 				2443DCA318D6649500C920C1 /* M2Theme.m in Sources */,
 				24C4517318E140AE0001FCFD /* M2SettingsDetailViewController.m in Sources */,
 				24C4516418DABABE0001FCFD /* M2GlobalState.m in Sources */,
+				092C18271EF36E39004D819B /* M2HomeViewController.m in Sources */,
 				2443DC6818D662CA00C920C1 /* M2AppDelegate.m in Sources */,
 				2443DC9B18D663FC00C920C1 /* M2GameManager.m in Sources */,
 			);

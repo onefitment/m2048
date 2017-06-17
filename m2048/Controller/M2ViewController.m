@@ -18,6 +18,7 @@
 #import "M2GridView.h"
 #import "Macros.h"
 #import "M2GameCenterManager.h"
+#import "M2HomeViewController.h"
 
 @interface M2ViewController ()
 @property (nonatomic, strong) M2GameCenterManager *gameCenterManager;
@@ -69,6 +70,16 @@
     _scene = scene;
     _scene.controller = self;
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 
@@ -137,8 +148,8 @@
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [self.gameCenterManager showGameCenterWithVC:self];
     // Pause Sprite Kit. Otherwise the dismissal of the modal view would lag.
     ((SKView *)self.view).paused = YES;
 }
@@ -200,6 +211,12 @@
         // Freeze the current game.
         ((SKView *)self.view).paused = YES;
     }];
+}
+
+#pragma mark -- 进入首页
+- (IBAction)mainBtnClick:(id)sender {
+    M2HomeViewController *homeVC = [[M2HomeViewController alloc] init];
+    [self.navigationController pushViewController:homeVC animated:YES];
 }
 
 
