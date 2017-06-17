@@ -92,7 +92,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 2;
+  return 1;
 }
 
 
@@ -105,7 +105,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
   if (section) return @"";
-  return @"Please note: Changing the settings above would restart the game.";
+    return @"请注意：更改设置将要重新开始游戏";
 }
 
 
@@ -117,8 +117,13 @@
     cell.textLabel.text = @"About 2048";
     cell.detailTextLabel.text = @"";
   } else {
-    cell.textLabel.text = [_options objectAtIndex:indexPath.row];
-    
+      if(indexPath.row == 0) {
+          cell.textLabel.text = @"游戏类型";
+      } else if(indexPath.row == 1) {
+          cell.textLabel.text = @"格子规格";
+      } else {
+          cell.textLabel.text = @"主题";
+      }
     NSInteger index = [Settings integerForKey:[_options objectAtIndex:indexPath.row]];
     cell.detailTextLabel.text = [[_optionSelections objectAtIndex:indexPath.row] objectAtIndex:index];
     cell.detailTextLabel.textColor = [GSTATE scoreBoardColor];

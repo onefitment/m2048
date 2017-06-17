@@ -10,6 +10,7 @@
 #import <AppLovinSDK/AppLovinSDK.h>
 #import <BmobSDK/Bmob.h>
 #import <AVFoundation/AVFoundation.h>
+#import "introductoryPagesHelper.h"
 
 #define bmobID @"e3f44447bee428928846ab5eb74eeb17"
 
@@ -19,7 +20,21 @@
     [Bmob registerWithAppKey:bmobID];
     NSError* error;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    //引导页面加载
+    [self setupIntroductoryPage];
     return YES;
+}
+
+#pragma mark 引导页
+-(void)setupIntroductoryPage
+{
+    if (BBUserDefault.isNoFirstLaunch)
+    {
+        return;
+    }
+    BBUserDefault.isNoFirstLaunch=YES;
+    NSArray *images=@[@"introductoryPage1",@"introductoryPage2",@"introductoryPage3",@"introductoryPage4"];
+    [introductoryPagesHelper showIntroductoryPageView:images];
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
