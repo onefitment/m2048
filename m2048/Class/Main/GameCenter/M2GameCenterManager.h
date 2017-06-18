@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface M2GameCenterManager : NSObject
+
++ (M2GameCenterManager *)share;
 //身份验证
 - (void)authenticateLocalUser:(UIViewController *)mainVC;
 //上传分数

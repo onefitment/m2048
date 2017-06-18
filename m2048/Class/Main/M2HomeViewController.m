@@ -84,7 +84,7 @@ NSString * const kTableViewidentifierNormalCell = @"TableViewidentifierNormalCel
 
 - (M2GameCenterManager *)gameManager {
     if (!_gameManager) {
-        _gameManager = [[M2GameCenterManager alloc] init];
+        _gameManager = [M2GameCenterManager share];
     }
     return _gameManager;
 }

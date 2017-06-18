@@ -20,6 +20,10 @@
 #import "M2GameCenterManager.h"
 #import "M2HomeViewController.h"
 
+NSString *const bestScoreOf2 = @"BestScoreOf2";
+NSString *const bestScoreOf3 = @"BestScoreOf3";
+NSString *const bestScoreOf4 = @"BestScoreOf5";
+
 @interface M2ViewController ()
 @property (nonatomic, strong) M2GameCenterManager *gameCenterManager;
 @end
@@ -140,11 +144,32 @@
 - (void)updateScore:(NSInteger)score
 {
     _scoreView.score.text = [NSString stringWithFormat:@"%ld", (long)score];
+    NSInteger type = [Settings integerForKey:@"Game Type"];
+    if (type == 0) {
+        if ([Settings integerForKey:bestScoreOf2] < score) {
+            [self recordScore:score withKey:bestScoreOf2 andType:type];
+        }
+    } else if(type == 1) {
+        if ([Settings integerForKey:bestScoreOf3] < score) {
+            [self recordScore:score withKey:bestScoreOf3 andType:type];
+        }
+    } else if(type == 2){
+        if ([Settings integerForKey:bestScoreOf3] < score) {
+            [self recordScore:score withKey:bestScoreOf3 andType:type];
+        }
+    }
     if ([Settings integerForKey:@"Best Score"] < score) {
         [Settings setInteger:score forKey:@"Best Score"];
         _bestView.score.text = [NSString stringWithFormat:@"%ld", (long)score];
-        [self.gameCenterManager reportScore:score andType:M2GameTypePowerOf2];
+        [self.gameCenterManager reportScore:score andType:3];
     }
+    
+}
+
+- (void)recordScore:(int64_t)score withKey:(NSString *)key andType:(NSInteger)type{
+    [Settings setInteger:score forKey:key];
+    [self.gameCenterManager reportScore:score andType:type];
+    
 }
 
 
@@ -243,7 +268,7 @@
 
 - (M2GameCenterManager *)gameCenterManager {
     if (!_gameCenterManager) {
-        _gameCenterManager = [[M2GameCenterManager alloc] init];
+        _gameCenterManager = [M2GameCenterManager share];
     }
     return _gameCenterManager;
 }

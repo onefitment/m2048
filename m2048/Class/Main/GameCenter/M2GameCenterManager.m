@@ -21,6 +21,15 @@
 
 @implementation M2GameCenterManager
 
++ (M2GameCenterManager *)share {
+    static M2GameCenterManager* share = nil;
+    static dispatch_once_t one;
+    dispatch_once(&one, ^{
+        share = [[M2GameCenterManager alloc] init];
+    });
+    return share;
+}
+
 //是否支持GameCenter
 - (BOOL) isGameCenterAvailable
 {
@@ -72,8 +81,10 @@
         scoreReporter = [[GKScore alloc] initWithLeaderboardIdentifier:kIdentifierScore2];
     } else if (gameType == M2GameTypePowerOf3) {
         scoreReporter = [[GKScore alloc] initWithLeaderboardIdentifier:kIdentifierScore3];
-    } else {
+    } else if(gameType == M2GameTypeFibonacci){
         scoreReporter = [[GKScore alloc] initWithLeaderboardIdentifier:kIdentifierScore5];
+    } else {
+        scoreReporter = [[GKScore alloc] initWithLeaderboardIdentifier:kIdentifierAllScore];
     }
     scoreReporter.value = score;
     
@@ -94,31 +105,42 @@
 }
 
 - (void)showGameCenterWithVC:(UIViewController *)vc {
-    self.localPlayer = [GKLocalPlayer localPlayer];
-    __weak typeof(self) weakSelf = self;
-    self.localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
-        if ([[GKLocalPlayer localPlayer] isAuthenticated]) {
-            GKGameCenterViewController *gameViewController = [[GKGameCenterViewController alloc] init];
+    GKGameCenterViewController *gameViewController = [[GKGameCenterViewController alloc] init];
+    if (gameViewController) {
+        if ([self.localPlayer isAuthenticated]) {
             gameViewController.view.backgroundColor = [[GSTATE backgroundColor] colorWithAlphaComponent:0.8];
-            if (gameViewController) {
-                gameViewController.gameCenterDelegate = weakSelf;
-                [gameViewController setLeaderboardTimeScope:GKLeaderboardTimeScopeAllTime];
-                [gameViewController setLeaderboardIdentifier:kIdentifierAllScore];
-                [vc presentViewController:gameViewController animated:YES completion:nil];
-            }
-        } else {
-            if (viewController ) {
-                [vc presentViewController:viewController animated:YES completion:nil];
-            } else {
-                //登录没有被允许，请去设置中心设置gameCenter
-            }
+            gameViewController.gameCenterDelegate = self;
+            [gameViewController setLeaderboardTimeScope:GKLeaderboardTimeScopeAllTime];
+            [gameViewController setLeaderboardIdentifier:kIdentifierAllScore];
+            [vc presentViewController:gameViewController animated:YES completion:nil];
         }
-    };
+    }
+//    self.localPlayer = [GKLocalPlayer localPlayer];
+//    __weak typeof(self) weakSelf = self;
+//    self.localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
+//        if ([[GKLocalPlayer localPlayer] isAuthenticated]) {
+//            GKGameCenterViewController *gameViewController = [[GKGameCenterViewController alloc] init];
+//            gameViewController.view.backgroundColor = [[GSTATE backgroundColor] colorWithAlphaComponent:0.8];
+//            if (gameViewController) {
+//                gameViewController.gameCenterDelegate = weakSelf;
+//                [gameViewController setLeaderboardTimeScope:GKLeaderboardTimeScopeAllTime];
+//                [gameViewController setLeaderboardIdentifier:kIdentifierAllScore];
+//                [vc presentViewController:gameViewController animated:YES completion:nil];
+//            }
+//        } else {
+//            if (viewController ) {
+//                [vc presentViewController:viewController animated:YES completion:nil];
+//            } else {
+//                //登录没有被允许，请去设置中心设置gameCenter
+//            }
+//        }
+//    };
 
 }
 
 - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController {
-    
+    [gameCenterViewController dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 @end
