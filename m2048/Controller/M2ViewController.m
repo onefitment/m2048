@@ -95,8 +95,8 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
     [super viewDidAppear:animated];
     
     // Load an ad into the ad view
-//    [self.adView loadNextAd];
-//    adView.backgroundColor = [UIColor orangeColor];
+    [self.adView loadNextAd];
+    self.adView.backgroundColor = [UIColor orangeColor];
     
     // Add it to the view
     //验证用户是否登录了
@@ -241,9 +241,10 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
     } completion:^(BOOL finished) {
         // Freeze the current game.
         ((SKView *)self.view).paused = YES;
+        //游戏结束，播放广告
+        [self showAdVideo:1];
     }];
-    //游戏结束，播放广告
-    [self showAdVideo:1];
+    
 }
 
 
@@ -255,14 +256,14 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
 
 #pragma mark -- 显示广告视频
 - (void)showAdVideo:(NSInteger)type {
-    if (self.gameCenterManager.adDelayCount || !type) {
-        self.gameCenterManager.adDelayCount = 3;
-        return;
+    if (!self.gameCenterManager.adDelayCount || type) {
+        if([ALIncentivizedInterstitialAd isReadyForDisplay]) {
+            [ALIncentivizedInterstitialAd show];
+            [ALIncentivizedInterstitialAd showAndNotify:self];
+            self.gameCenterManager.adDelayCount = 3;
+        }
     }
-    if([ALIncentivizedInterstitialAd isReadyForDisplay]) {
-        [ALIncentivizedInterstitialAd show];
-        [ALIncentivizedInterstitialAd showAndNotify:self];
-    }
+    
 }
 
 #pragma mark ALIncentivizedInterstitialAd delegate
