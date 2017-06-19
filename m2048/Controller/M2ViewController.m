@@ -24,7 +24,8 @@ NSString *const bestScoreOf2 = @"BestScoreOf2";
 NSString *const bestScoreOf3 = @"BestScoreOf3";
 NSString *const bestScoreOf4 = @"BestScoreOf5";
 
-@interface M2ViewController ()
+@interface M2ViewController () <ALAdRewardDelegate,ALAdDisplayDelegate>
+@property (nonatomic, strong) ALAdView *adView ;
 @property (nonatomic, strong) M2GameCenterManager *gameCenterManager;
 @end
 
@@ -73,6 +74,9 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
     
     _scene = scene;
     _scene.controller = self;
+    //初始化广告
+    [ALIncentivizedInterstitialAd shared].adDisplayDelegate = self;
+    [ALIncentivizedInterstitialAd preloadAndNotify:nil];
     
 }
 
@@ -89,15 +93,16 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    ALAdView *adView = [[ALAdView alloc] initWithFrame: CGRectMake(0,Main_Screen_Height - 50 , Main_Screen_Width, 50.0f) size: [ALAdSize sizeBanner] sdk: [ALSdk shared]];
+    
     // Load an ad into the ad view
-    [adView loadNextAd];
+    [self.adView loadNextAd];
 //    adView.backgroundColor = [UIColor orangeColor];
     
     // Add it to the view
-    [self.view addSubview: adView];
     //验证用户是否登录了
     [self.gameCenterManager authenticateLocalUser:self];
+    self.gameCenterManager.adDelayCount --;
+    [self showAdVideo:0];
     
 }
 
@@ -129,7 +134,7 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
     
     _subtitle.textColor = [GSTATE buttonColor];
     _subtitle.font = [UIFont fontWithName:[GSTATE regularFontName] size:14];
-    _subtitle.text = [NSString stringWithFormat:@"Join the numbers to get to %ld!", target];
+    _subtitle.text = [NSString stringWithFormat:@"达到并超过这个分数: %ld!", target];
     
     _overlay.message.font = [UIFont fontWithName:[GSTATE boldFontName] size:36];
     _overlay.keepPlaying.titleLabel.font = [UIFont fontWithName:[GSTATE boldFontName] size:17];
@@ -185,6 +190,7 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
     [self hideOverlay];
     [self updateScore:0];
     [_scene startNewGame];
+    [self showAdVideo:1];
 }
 
 
@@ -236,7 +242,10 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
         // Freeze the current game.
         ((SKView *)self.view).paused = YES;
     }];
+    //游戏结束，播放广告
+    [self showAdVideo:1];
 }
+
 
 #pragma mark -- 进入首页
 - (IBAction)mainBtnClick:(id)sender {
@@ -244,7 +253,47 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
     [self.navigationController pushViewController:homeVC animated:YES];
 }
 
+#pragma mark -- 显示广告视频
+- (void)showAdVideo:(NSInteger)type {
+    if (self.gameCenterManager.adDelayCount || !type) {
+        return;
+    }
+    if([ALIncentivizedInterstitialAd isReadyForDisplay]) {
+        [ALIncentivizedInterstitialAd show];
+        [ALIncentivizedInterstitialAd showAndNotify:self];
+    }
+}
 
+#pragma mark ALIncentivizedInterstitialAd delegate
+//拒绝播放广告
+- (void)rewardValidationRequestForAd:(ALAd *)ad wasRejectedWithResponse:(NSDictionary *)response {
+    
+}
+
+//成功播放广告
+- (void)rewardValidationRequestForAd:(ALAd *)ad didSucceedWithResponse:(NSDictionary *)response {
+    
+}
+
+- (void)rewardValidationRequestForAd:(ALAd *)ad didExceedQuotaWithResponse:(NSDictionary *)response {
+    
+}
+
+- (void)rewardValidationRequestForAd:(ALAd *)ad didFailWithError:(NSInteger)responseCode {
+    
+}
+
+// ALAdDisplayDelegate methods
+- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view {
+    
+}
+- (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view {
+    
+}
+- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view {
+    // The user has closed the ad.  We must preload the next rewarded video.
+    [ALIncentivizedInterstitialAd preloadAndNotify:nil];
+}
 - (void)hideOverlay
 {
     ((SKView *)self.view).paused = NO;
@@ -272,5 +321,14 @@ NSString *const bestScoreOf4 = @"BestScoreOf5";
     }
     return _gameCenterManager;
 }
+
+- (ALAdView *)adView {
+    if (!_adView) {
+        _adView = [[ALAdView alloc] initWithFrame: CGRectMake(0,Main_Screen_Height - 50 , Main_Screen_Width, 50.0f) size: [ALAdSize sizeBanner] sdk: [ALSdk shared]];
+        [self.view addSubview:_adView];
+    }
+    return _adView;
+}
+
 
 @end

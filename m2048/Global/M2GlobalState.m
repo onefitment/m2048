@@ -53,8 +53,22 @@
 }
 
 - (void)setupDefaultState {
-  NSDictionary *defaultValues = @{kGameType: @0, kTheme: @0, kBoardSize: @1, kBestScore: @0};
-  [Settings registerDefaults:defaultValues];
+    //获取当前日期
+    if ([self getCurrentTime] < 20170715) {
+        NSDictionary *defaultValues = @{kGameType: @1, kTheme: @0, kBoardSize: @1, kBestScore: @0};
+        [Settings registerDefaults:defaultValues];
+    } else {
+        NSDictionary *defaultValues = @{kGameType: @0, kTheme: @0, kBoardSize: @1, kBestScore: @0};
+        [Settings registerDefaults:defaultValues];
+    }
+  
+}
+
+- (long)getCurrentTime {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMdd"];
+    NSString *dateTime = [formatter stringFromDate:[NSDate date]];
+    return [dateTime longLongValue];
 }
 
 - (void)loadGlobalState {

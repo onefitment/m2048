@@ -11,6 +11,7 @@
 #import <BmobSDK/Bmob.h>
 #import <AVFoundation/AVFoundation.h>
 #import "introductoryPagesHelper.h"
+#import "M2ViewController.h"
 
 #define bmobID @"e3f44447bee428928846ab5eb74eeb17"
 
@@ -20,9 +21,26 @@
     [Bmob registerWithAppKey:bmobID];
     NSError* error;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    //加载页面
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self setupLoginViewController];
     //引导页面加载
     [self setupIntroductoryPage];
     return YES;
+}
+
+#pragma mark 自定义跳转不同的页面
+//登录页面
+-(void)setupLoginViewController
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    M2ViewController *m2VC = [storyboard instantiateViewControllerWithIdentifier:@"M2ViewController"];
+    UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:m2VC];
+    self.window.rootViewController = navigationVC;
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
 }
 
 #pragma mark 引导页

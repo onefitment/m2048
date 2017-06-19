@@ -100,7 +100,7 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
 {
   [self playWavTwo];
   __block M2Tile *tile = nil;
-  
+   
   // Remember that the coordinate system of SpriteKit is the reverse of that of UIKit.
   BOOL reverse = direction == M2DirectionUp || direction == M2DirectionRight;
   NSInteger unit = reverse ? 1 : -1;

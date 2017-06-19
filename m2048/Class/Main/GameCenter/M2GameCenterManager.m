@@ -26,6 +26,7 @@
     static dispatch_once_t one;
     dispatch_once(&one, ^{
         share = [[M2GameCenterManager alloc] init];
+        share.adDelayCount = 3;
     });
     return share;
 }

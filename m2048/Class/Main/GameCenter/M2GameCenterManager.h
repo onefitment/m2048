@@ -18,4 +18,7 @@
 
 - (void)showGameCenterWithVC:(UIViewController *)vc;
 
+//设置一个频率，没3次游戏界面显示，展示一次广告
+@property (nonatomic, assign) NSInteger adDelayCount;
+
 @end
