@@ -8,6 +8,5 @@ target 'm2048' do
     pod 'YYText'
     pod 'QMUIKit'
     pod 'MJRefresh'
-    pod 'BmobSDK'
 end
 

@@ -8,17 +8,14 @@
 
 #import "M2AppDelegate.h"
 #import <AppLovinSDK/AppLovinSDK.h>
-#import <BmobSDK/Bmob.h>
 #import <AVFoundation/AVFoundation.h>
 #import "introductoryPagesHelper.h"
 #import "M2ViewController.h"
 
-#define bmobID @"e3f44447bee428928846ab5eb74eeb17"
 
 @implementation M2AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [Bmob registerWithAppKey:bmobID];
     NSError* error;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
     //加载页面
